@@ -30,7 +30,7 @@ public class MerchandiseController {
     }
 
     @GetMapping("/find/merchandise/all")
-    public List<Merchandise> findAll() {
+    public List<Merchandise> findAll(){
         return merchandiseRepository.findAll();
     }
 
