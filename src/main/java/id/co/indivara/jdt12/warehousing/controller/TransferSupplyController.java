@@ -59,7 +59,7 @@ public class TransferSupplyController {
         return new ResponseEntity<>(transferSupply,HttpStatus.OK);
     }
 
-    @GetMapping("/find/ supply/all")
+    @GetMapping("/find/supply/all")
     public List<TransferSupply> findAllTransferSupply(){
         return transferSupplyRepository.findAll();
     }

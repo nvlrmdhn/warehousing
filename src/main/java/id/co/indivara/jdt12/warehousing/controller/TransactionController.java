@@ -41,8 +41,8 @@ public class TransactionController {
         return transferWTSRepository.findBySource(warehouse);
     }
 
-    @GetMapping("/find/transaction/{warehouseId}")
-    public Map<List,Object> findTransaction(@PathVariable("warehouseId") Warehouse warehouse){
+    @GetMapping("/find/transaction/{warehouseCode}")
+    public Map<List,Object> findTransaction(@PathVariable("warehouseCode") Warehouse warehouse){
         Map combine = new HashMap<List,Object>();
         combine.put("trx_supply",transferSupply(warehouse));
         combine.put("trx_wtw",transferWTW(warehouse));
@@ -50,4 +50,18 @@ public class TransactionController {
         return combine;
     }
 
+    @GetMapping("/find/transaction/supply/{warehouseCode}")
+    public List<TransferSupply> findTransactionSupply(@PathVariable Warehouse warehouseCode){
+        return transferSupplyRepository.findByWarehouse(warehouseCode);
+    }
+
+    @GetMapping("/find/transaction/wtw/{warehouseCode}")
+    public List<TransferWTW> findTransactionWTW(@PathVariable Warehouse warehouseCode){
+        return transferWTWRepository.findByWarehouseSource(warehouseCode);
+    }
+
+    @GetMapping("/find/transaction/wts/{warehouseCode}")
+    public List<TransferWTS> findTransactionWTS(@PathVariable Warehouse warehouseCode){
+        return transferWTSRepository.findBySource(warehouseCode);
+    }
 }
