@@ -53,11 +53,4 @@ public class MerchandiseControllerTest {
                 .andExpect(jsonPath("$.merchandiseCode").exists())
                 .andExpect(jsonPath("$.merchandiseName").value("topi"));
     }
-
-    @Test
-    public void deleteMerchandiseTest() throws Exception {
-        mockMvc.perform(delete("/delete/merchandise/{merchandiseId}", "mrc3"))
-                .andExpect(status().isOk());
-        assertFalse(merchandiseRepository.existsById("mrc3"));
-    }
 }

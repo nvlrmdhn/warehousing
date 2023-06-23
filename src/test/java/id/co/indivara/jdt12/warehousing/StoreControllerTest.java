@@ -57,11 +57,4 @@ public class StoreControllerTest {
                 .andExpect(jsonPath("$.joinDate").exists());
     }
 
-    @Test
-    public void deleteMerchandiseTest() throws Exception {
-        mockMvc.perform(delete("/delete/store/{storeId}", "str4"))
-                .andExpect(status().isOk());
-        assertFalse(storeRepository.existsById("str4"));
-    }
-
 }

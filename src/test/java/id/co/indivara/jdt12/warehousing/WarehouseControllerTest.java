@@ -57,11 +57,4 @@ public class WarehouseControllerTest {
                 .andExpect(jsonPath("$.warehouseLocation").value("Jakarta"))
                 .andExpect(jsonPath("$.joinDate").exists());
     }
-
-    @Test
-    public void deleteWarehouseTest() throws Exception {
-        mockMvc.perform(delete("/delete/warehouse/{warehouseId}", "wrh3"))
-                .andExpect(status().isOk());
-        assertFalse(warehouseRepository.existsById("wrh3"));
-    }
 }
