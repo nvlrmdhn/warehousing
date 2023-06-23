@@ -45,23 +45,23 @@ public class TransferWTSControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.transferWTSId").exists())
                 .andExpect(jsonPath("$.transferWTSCode").exists())
-                .andExpect(jsonPath("$.source.warehouseCode").value("wrh1"))
+                .andExpect(jsonPath("$.source.warehouseCode").value("wrh1")) //yang ngirim
                 .andExpect(jsonPath("$.merchandiseCode.merchandiseCode").value("mrc1"))
-                .andExpect(jsonPath("$.destination.storeCode").value("str1"))
-                .andExpect(jsonPath("$.stock").value(200))
+                .andExpect(jsonPath("$.destination.storeCode").value("str1")) //yang nerima
+                .andExpect(jsonPath("$.stock").value(200)) //jumlah yang di transfer
                 .andExpect(jsonPath("$.timestamp").exists());
 
         mockMvc.perform(get("/view/warehouseinventory/warehouse/{warehouseCode}", warehouse.getWarehouseCode())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0]stock").value(800));
+                .andExpect(jsonPath("$.[0]stock").value(800)); //expect di tempat yg ngirim bakal berkurang jadi berapa
 
         mockMvc.perform(get("/view/storeinventory/store/{storeCode}", store.getStoreCode())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0]stock").value(1450));
+                .andExpect(jsonPath("$.[0]stock").value(1450)); //expect di tempat yg nerima bakal nambah jadi berapa
 
     }
 }

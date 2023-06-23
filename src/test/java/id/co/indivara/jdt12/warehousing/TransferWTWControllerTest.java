@@ -24,9 +24,11 @@ public class TransferWTWControllerTest {
     @Test
     public void transferWTWTest() throws Exception {
 
+        //inputan buat yang ngirim
         Warehouse warehouse = new Warehouse();
         warehouse.setWarehouseCode("wrh1");
 
+        //inputan buat yg nerima
         Warehouse warehouse1 = new Warehouse();
         warehouse1.setWarehouseCode("wrh2");
 
@@ -47,22 +49,22 @@ public class TransferWTWControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.transferWTWId").exists())
                 .andExpect(jsonPath("$.transferWTWCode").exists())
-                .andExpect(jsonPath("$.warehouseSource.warehouseCode").value("wrh1"))
-                .andExpect(jsonPath("$.merchandiseCode.merchandiseCode").value("mrc1"))
+                .andExpect(jsonPath("$.warehouseSource.warehouseCode").value("wrh1")) //yg ngirim
+                .andExpect(jsonPath("$.merchandiseCode.merchandiseCode").value("mrc1")) //yg nerima
                 .andExpect(jsonPath("$.warehouseDestination.warehouseCode").value("wrh2"))
-                .andExpect(jsonPath("$.stock").value(1000))
+                .andExpect(jsonPath("$.stock").value(1000)) //jumlah transfer
                 .andExpect(jsonPath("$.timestamp").exists());
 
         mockMvc.perform(get("/view/warehouseinventory/warehouse/{warehouseCode}", warehouse.getWarehouseCode())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0]stock").value(2000));
+                .andExpect(jsonPath("$.[0]stock").value(2000)); //expect di tempat yg ngirim bakal berkurang jadi berapa
 
         mockMvc.perform(get("/view/warehouseinventory/warehouse/{warehouseCode}", warehouse1.getWarehouseCode())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0]stock").value(7750));
+                .andExpect(jsonPath("$.[0]stock").value(7750)); //expect di tempat yg nerima bakal nambah jadi berapa
     }
 }
