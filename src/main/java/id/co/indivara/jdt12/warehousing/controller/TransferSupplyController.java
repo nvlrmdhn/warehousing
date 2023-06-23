@@ -7,6 +7,7 @@ import id.co.indivara.jdt12.warehousing.repo.WarehouseInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -24,6 +25,7 @@ public class TransferSupplyController {
     WarehouseInventoryRepository warehouseInventoryRepository;
 
     @PostMapping("/transfer/{warehouseCode}/{merchandiseCode}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPPLYER')")
     public ResponseEntity<TransferSupply> transferSupply(@PathVariable Warehouse warehouseCode, @PathVariable Merchandise merchandiseCode, @RequestBody TransferSupply transferSupply){
         //buat cek warehousenya ada dan punya merchandise
         WarehouseInventory warehouseInventory = warehouseInventoryRepository.findByMerchandiseCodeAndWarehouseCode(merchandiseCode,warehouseCode);

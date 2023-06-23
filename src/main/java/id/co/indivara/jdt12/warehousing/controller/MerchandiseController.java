@@ -3,6 +3,7 @@ package id.co.indivara.jdt12.warehousing.controller;
 import id.co.indivara.jdt12.warehousing.entity.Merchandise;
 import id.co.indivara.jdt12.warehousing.repo.MerchandiseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ public class MerchandiseController {
     MerchandiseRepository merchandiseRepository;
 
     @PostMapping("/create/merchandise")
+    @PreAuthorize("hasRole('ADMIN')")
     public Merchandise createMerchandise(@RequestBody Merchandise merchandise) {
         Merchandise ms = new Merchandise();
         ms.setMerchandiseCode("mrc" + (merchandiseRepository.count() + 1));
