@@ -64,6 +64,5 @@ public class TransferWTWControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0]stock").value(7750));
-
     }
 }
