@@ -5,6 +5,7 @@ import id.co.indivara.jdt12.warehousing.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -24,6 +25,7 @@ public class TransferWTSController{
     TransactionRepository transactionRepository;
 
     @PostMapping("/transferwts/{warehouseCode}/{merchandiseCode}/{storeCode}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('WAREHOUSEADMIN')")
     public ResponseEntity<TransferWTS> transferWTS(@PathVariable Warehouse warehouseCode, @PathVariable Merchandise merchandiseCode, @PathVariable Store storeCode, @RequestBody TransferWTS transferWTS){
         WarehouseInventory warehouseSource = warehouseInventoryRepository.findByMerchandiseCodeAndWarehouseCode(merchandiseCode,warehouseCode);
         StoreInventory storeDestination = storeInventoryRepository.findByMerchandiseCodeAndStoreCode(merchandiseCode,storeCode);

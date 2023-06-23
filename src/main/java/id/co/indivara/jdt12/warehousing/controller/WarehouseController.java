@@ -3,6 +3,7 @@ package id.co.indivara.jdt12.warehousing.controller;
 import id.co.indivara.jdt12.warehousing.entity.Warehouse;
 import id.co.indivara.jdt12.warehousing.repo.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -17,6 +18,7 @@ public class WarehouseController {
     WarehouseRepository warehouseRepository;
 
     @PostMapping("/create/warehouse")
+    @PreAuthorize("hasRole('ADMIN')")
     public Warehouse createWarehouse(@RequestBody Warehouse warehouse){
         warehouse.setWarehouseCode("wrh"+(warehouseRepository.count()+1));
         warehouse.setWarehouseId(UUID.randomUUID());

@@ -9,6 +9,7 @@ import id.co.indivara.jdt12.warehousing.repo.TransferSupplyRepository;
 import id.co.indivara.jdt12.warehousing.repo.TransferWTSRepository;
 import id.co.indivara.jdt12.warehousing.repo.TransferWTWRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +43,7 @@ public class TransactionController {
     }
 
     @GetMapping("/find/transaction/{warehouseCode}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Map<List,Object> findTransaction(@PathVariable("warehouseCode") Warehouse warehouse){
         Map combine = new HashMap<List,Object>();
         combine.put("trx_supply",transferSupply(warehouse));
@@ -51,16 +53,19 @@ public class TransactionController {
     }
 
     @GetMapping("/find/transaction/supply/{warehouseCode}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('WAREHOUSEADMIN')")
     public List<TransferSupply> findTransactionSupply(@PathVariable Warehouse warehouseCode){
         return transferSupplyRepository.findByWarehouse(warehouseCode);
     }
 
     @GetMapping("/find/transaction/wtw/{warehouseCode}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('WAREHOUSEADMIN')")
     public List<TransferWTW> findTransactionWTW(@PathVariable Warehouse warehouseCode){
         return transferWTWRepository.findByWarehouseSource(warehouseCode);
     }
 
     @GetMapping("/find/transaction/wts/{warehouseCode}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('WAREHOUSEADMIN') or hasRole('STOREADMIN')")
     public List<TransferWTS> findTransactionWTS(@PathVariable Warehouse warehouseCode){
         return transferWTSRepository.findBySource(warehouseCode);
     }

@@ -3,6 +3,7 @@ package id.co.indivara.jdt12.warehousing.controller;
 import id.co.indivara.jdt12.warehousing.entity.Store;
 import id.co.indivara.jdt12.warehousing.repo.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -17,6 +18,7 @@ public class StoreController {
     StoreRepository storeRepository;
 
     @PostMapping("/create/store")
+    @PreAuthorize("hasRole('ADMIN')")
     public Store createStore(@RequestBody Store store){
         Store str = new Store();
         str.setStoreCode("str"+(storeRepository.count()+1));
